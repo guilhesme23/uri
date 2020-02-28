@@ -1,0 +1,1 @@
+main = mapM_ print [x | x <- [1..100], even x]
