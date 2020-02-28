@@ -1,3 +1,4 @@
+import System.IO (isEOF)
 subs ch (a, ast, it)
     | ch == '*' =
         if even ast then
@@ -16,7 +17,7 @@ main = do
     if exit then
         return ()
     else do a <- getLine
-            let (res, _, _) = foldr subs ("", 0, 0) a
-            print res
+            let (res, _, _) = foldr subs ("", 1, 1) a
+            putStrLn res
             main
 
