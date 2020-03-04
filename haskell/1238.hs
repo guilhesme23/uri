@@ -1,14 +1,10 @@
-cc :: [a] -> [a] -> [a] -> [a]
-cc [] y acc = acc ++ y
-cc x [] acc = acc ++ x
-cc (x:xs) (y:ys) acc =
-    cc xs ys (acc ++ [x] ++ [y])
+import Data.List
 
 m' 0 = return ()
 m' n = do
     i <- getLine
     let xs = words i
-    putStrLn $ cc (head xs) (last xs) ""
+    putStrLn $ concat $ transpose [(head xs), (last xs)]
     m' (n-1)
 
 main = do
