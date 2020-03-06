@@ -2,28 +2,25 @@ import Data.List
 import Data.Ord (comparing)
 import System.IO (isEOF)
 
-sums ll cc (pages, lls, ccs) x
-    | c's + ccs == cc && x == " " && lls < ll =
-        (pages, lls+1, 0)
-    | c's + ccs == cc && x == " " && lls >= ll =
-        (pages+1, 1, 0)
-    | ccs == 0 && x == " " =
-        (pages, lls, ccs)
-    | c's + ccs <= cc =
-        (pages, lls, c's + ccs)
-    | c's + ccs > cc && lls < ll =
-        (pages, lls+1, c's)
-    | otherwise =
-        (pages+1,1,0)
-    where c's = length x
+ss ll cc (pages, lls, ccs) x
+    | at <= cc = (pages, lls, at)
+    | ls = (pages, lls+1, x)
+    | otherwise = (pages+1, 1, 0)
+    where at = if ccs > 0 then x + ccs + 1 else x
+          ls = at > cc && lls < ll
 
 main = do
     exit <- isEOF
     if exit then
         return ()
     else do
-        (n:ll:cc:_) <- fmap (map read.words) getLine :: IO [Int]
-        a <- fmap (intersperse " ".words) getLine
-        let (res, _, _) = foldl (sums ll cc) (1, 1, 0) a
-        print res
+        (n:ll:cc:_) <- (map read.words) `fmap` getLine :: IO [Int]
+        a <- fmap (intersperse 1.map length.words) getLine
+        let res = scanl (ss ll cc) (1, 1, 0) a
+            cccs = if even (length a) then (sum a - 1 `div` cc) else sum a `div` cc
+            pps = cccs `div` ll
+            us = cccs `mod` ll
+        -- print res
+        print $ sum a
+        print (pps, us, sum a `mod` cc)
         main
